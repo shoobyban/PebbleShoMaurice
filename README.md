@@ -6,6 +6,7 @@ This is a highly readable analog watchface for the [Pebble Smartwatch][pebble], 
 This version is built on the [Pebble SDK 3.7][sdk3], the project is a simplified version of the incredibly good-looking [Maurice][maurice] Pebble watchface.
 
 ![screenshot](screenshot.png)
+![screenshot](screenshot2.png)
 
 Contributions are highly welcome - just send me a [pull request][pullreq].
 

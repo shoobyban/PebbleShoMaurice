@@ -1,0 +1,21 @@
+{
+  "name": "config",
+  "homepage": "https://github.com/ShoobyBan/PebbleShoMaurice",
+  "authors": [
+    "Szabolcs Ban <szabolcs.ban@wizguild.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "Slate": "pebble-slate#~0.0.3"
+  }
+}

@@ -3,7 +3,7 @@
   "shortName": "ShoMaurice",
   "longName": "ShoMaurice",
   "companyName": "Sam Ban",
-  "versionLabel": "1.0",
+  "versionLabel": "2.0",
   "sdkVersion": "3",
   "targetPlatforms": ["aplite", "basalt"],
   "watchapp": {
@@ -11,6 +11,16 @@
   },
   "appKeys": {
     "dummy": 0
+  },
+  "capabilities": [
+    "configurable"
+  ],
+  "appKeys": {
+    "backgroundColor":   0,
+    "hourColor":         1,
+    "hourinColor":       2,
+    "minuteColor":       3,
+    "textColor":         4
   },
   "resources": {
     "media": [
