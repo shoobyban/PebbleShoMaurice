@@ -10,11 +10,15 @@ Pebble.addEventListener('showConfiguration', function() {
 });
 
 function XhexToRgb(hex) {
-    var result = /^#?([a-fA-F\d]{2})([a-fA-F\d]{2})([a-fA-F\d]{2})$/i.exec(hex);
-
-    return parseInt(result[1], 16)*65536+
-           parseInt(result[2], 16)*256+
-           parseInt(result[3], 16);
+    var result = /^#?(?:0x)?([a-fA-F\d]{2})([a-fA-F\d]{2})([a-fA-F\d]{2})$/i.exec(hex);
+    if (result && result.length == 4) {
+        return parseInt(result[1], 16)*65536+
+               parseInt(result[2], 16)*256+
+               parseInt(result[3], 16);
+    } else {
+        console.log('"'+hex+'" is not a hex colour');
+        console.log(result);
+    }
 }
 
 Pebble.addEventListener('webviewclosed', function(e) {

@@ -4,11 +4,6 @@
 #define NUM_CLOCK_TICKS 11
 #define DOTS_SIZE    4
 
-#define KEY_COLOR_RED     0
-#define KEY_COLOR_GREEN   1
-#define KEY_COLOR_BLUE    2
-#define KEY_HIGH_CONTRAST 3
-
 #ifdef PBL_COLOR
 const GPathInfo HOUR_HAND_POINTS = {
   6,
@@ -62,10 +57,10 @@ const GPathInfo HOUR_IN_POINTS = {
   6,
   (GPoint []) {
     { 5,  0},
-    { 4,-20},
+    { 3,-20},
     { 2,-31},
     {-2,-31},
-    {-4,-20},
+    {-3,-20},
     {-5,  0},
   }
 };
@@ -109,12 +104,51 @@ static char s_num_buffer[4], s_day_buffer[6];
 #define KEY_M_COLOR  3
 #define KEY_T_COLOR  4
 
-static void draw_bg() {
+void config_init() {
+  // Set defaults
+  
+//APP_LOG(APP_LOG_LEVEL_DEBUG, "INIT");
+
+#ifdef PBL_COLOR  
+  if(!persist_exists(KEY_BG_COLOR)) {
+    persist_write_int(KEY_BG_COLOR, (uint8_t)0b11000000);
+    persist_write_int(KEY_H_COLOR,  (uint8_t)0b11111111);
+    persist_write_int(KEY_HI_COLOR, (uint8_t)0b11000000);
+    persist_write_int(KEY_M_COLOR,  (uint8_t)0b11111111);
+    persist_write_int(KEY_T_COLOR,  (uint8_t)0b11111111);
+  }
+
+  bg_color     = GColorFromHEX(persist_read_int(KEY_BG_COLOR));
+  hour_color   = GColorFromHEX(persist_read_int(KEY_H_COLOR));
+  hourin_color = GColorFromHEX(persist_read_int(KEY_HI_COLOR));
+  minute_color = GColorFromHEX(persist_read_int(KEY_M_COLOR));
+  text_color   = GColorFromHEX(persist_read_int(KEY_T_COLOR));
+  
+#else
+  bg_color     = GColorBlack;
+  hour_color   = GColorWhite;
+  hourin_color = GColorBlack;
+  minute_color = GColorWhite;
+  text_color   = GColorWhite;
+#endif
+}
+
+static void redraw_bg() {
+  s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BACKGROUND);
   #ifdef PBL_COLOR
     replace_gbitmap_color(GColorBlack, bg_color, s_background_bitmap, s_background_layer);
     replace_gbitmap_color(GColorWhite, text_color, s_background_bitmap, s_background_layer);
   #endif
+
   bitmap_layer_set_bitmap(s_background_layer, s_background_bitmap);
+
+  for (int i = 0; i < 22; i++) {
+    battery_images[i] = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATTERY_0 + i);  
+  }
+
+  for (int i = 0; i < 2; i++)
+    bluetooth_images[i] = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BLUETOOTH_OFF + i);  
+
 }
 
 static void handle_bluetooth(bool connected) {
@@ -147,9 +181,11 @@ static void inbox_received_handler(DictionaryIterator *iter, void *context) {
   Tuple *minute_color_t     = dict_find(iter, KEY_M_COLOR);
   Tuple *text_color_t       = dict_find(iter, KEY_T_COLOR);
 
+//     APP_LOG(APP_LOG_LEVEL_DEBUG, "package");
+
   if (background_color_t) {
     int color = background_color_t->value->int32;
-//    APP_LOG(APP_LOG_LEVEL_DEBUG, "bg: %x",color);
+//     APP_LOG(APP_LOG_LEVEL_DEBUG, "in bg: %x",color);
  
     persist_write_int(KEY_BG_COLOR, color);
     bg_color = GColorFromHEX(color);
@@ -157,34 +193,36 @@ static void inbox_received_handler(DictionaryIterator *iter, void *context) {
 
   if (hour_color_t) {
     int color = hour_color_t->value->int32;
-//    APP_LOG(APP_LOG_LEVEL_DEBUG, "h: %x",color);
+//    APP_LOG(APP_LOG_LEVEL_DEBUG, "in h: %x",color);
     persist_write_int(KEY_H_COLOR, color);
     hour_color = GColorFromHEX(color);
   }
 
   if (hour_in_color_t) {
     int color = hour_in_color_t->value->int32;
-//    APP_LOG(APP_LOG_LEVEL_DEBUG, "hi: %x",color);
+//    APP_LOG(APP_LOG_LEVEL_DEBUG, "in hi: %x",color);
     persist_write_int(KEY_HI_COLOR, color);
     hourin_color = GColorFromHEX(color);
   }
 
   if (minute_color_t) {
     int color = minute_color_t->value->int32;
-//    APP_LOG(APP_LOG_LEVEL_DEBUG, "m: %x",color);
+//    APP_LOG(APP_LOG_LEVEL_DEBUG, "in m: %x",color);
     persist_write_int(KEY_M_COLOR, color);
     minute_color = GColorFromHEX(color);
   }
 
   if (text_color_t) {
     int color = text_color_t->value->int32;
-//    APP_LOG(APP_LOG_LEVEL_DEBUG, "t: %x",color);
+//    APP_LOG(APP_LOG_LEVEL_DEBUG, "in t: %x",color);
     persist_write_int(KEY_T_COLOR, color);
     text_color = GColorFromHEX(color);
   }
 
   layer_mark_dirty(s_date_layer);
   layer_mark_dirty(s_hands_layer);
+
+  redraw_bg();
 
   handle_bluetooth(connection_service_peek_pebble_app_connection());
   handle_battery(battery_state_service_peek());
@@ -198,11 +236,17 @@ static void inbox_received_handler(DictionaryIterator *iter, void *context) {
   text_layer_set_text_color(battp_layer, text_color);
   text_layer_set_background_color(battp_layer, bg_color);
 
-  draw_bg();
   #endif
 }
 
 static void hands_update_proc(Layer *layer, GContext *ctx) {
+
+//   APP_LOG(APP_LOG_LEVEL_DEBUG, "bg: %x",(unsigned int)persist_read_int(0));
+//   APP_LOG(APP_LOG_LEVEL_DEBUG, "h: %x",(unsigned int)persist_read_int(1));
+//   APP_LOG(APP_LOG_LEVEL_DEBUG, "hi: %x",(unsigned int)persist_read_int(2));
+//   APP_LOG(APP_LOG_LEVEL_DEBUG, "m: %x",(unsigned int)persist_read_int(3));
+//   APP_LOG(APP_LOG_LEVEL_DEBUG, "t: %x",(unsigned int)persist_read_int(4));
+
   #ifdef PBL_COLOR
     graphics_context_set_antialiased(ctx,1);
   #endif
@@ -219,6 +263,7 @@ static void hands_update_proc(Layer *layer, GContext *ctx) {
   // minute/hour hand
   gpath_rotate_to(s_hour_hand, hour_angle);
   #ifdef PBL_COLOR
+//    APP_LOG(APP_LOG_LEVEL_DEBUG, "in-: %uhh",(uint8_t)hourin_color);
     graphics_context_set_fill_color(ctx, hourin_color);
     graphics_context_set_stroke_color(ctx, hour_color);
     graphics_context_set_stroke_width(ctx, 3);
@@ -234,6 +279,7 @@ static void hands_update_proc(Layer *layer, GContext *ctx) {
     graphics_context_set_fill_color(ctx, hourin_color);
     gpath_draw_filled(ctx, s_hour_in_hand);
   #else
+      graphics_context_set_stroke_color(ctx, minute_color);
       graphics_context_set_stroke_width(ctx, 1);
   #endif
 
@@ -265,11 +311,6 @@ static void date_update_proc(Layer *layer, GContext *ctx) {
 }
 
 static void window_load(Window *window) {
-  bg_color     = GColorBlack;
-  hour_color   = GColorWhite;
-  hourin_color = GColorBlack;
-  minute_color = GColorWhite;
-  text_color   = GColorWhite;
 
   Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(window_layer);
@@ -352,6 +393,11 @@ static void window_unload(Window *window) {
 }
 
 static void init() {
+  config_init();
+
+  app_message_register_inbox_received(inbox_received_handler);
+  app_message_open(300, 300);
+
   window = window_create();
     
   window_set_window_handlers(window, (WindowHandlers) {
@@ -374,9 +420,6 @@ static void init() {
   gpath_move_to(s_minute_hand, center);
   gpath_move_to(s_hour_hand, center);
   gpath_move_to(s_hour_in_hand, center);
-
-  app_message_register_inbox_received(inbox_received_handler);
-  app_message_open(300, 300);
 }
 
 static void deinit() {
