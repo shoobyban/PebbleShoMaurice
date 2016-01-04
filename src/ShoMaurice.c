@@ -1,9 +1,6 @@
 #include <pebble.h>
 #include "gbitmap_color_palette_manipulator.h"
 
-#define NUM_CLOCK_TICKS 11
-#define DOTS_SIZE    4
-
 #ifdef PBL_COLOR
 const GPathInfo HOUR_HAND_POINTS = {
   6,
@@ -78,6 +75,7 @@ static Window *window;
 static Layer *s_date_layer, *s_hands_layer;
 static TextLayer *s_day_label, *s_num_label, *battp_layer;
 static BitmapLayer *s_background_layer;
+static int customcolor;
 
 GBitmap * s_background_bitmap;
 
@@ -103,27 +101,60 @@ static char s_num_buffer[4], s_day_buffer[6];
 #define KEY_HI_COLOR 2
 #define KEY_M_COLOR  3
 #define KEY_T_COLOR  4
+#define KEY_RESET    5
 
 void config_init() {
   // Set defaults
   
 //APP_LOG(APP_LOG_LEVEL_DEBUG, "INIT");
 
-#ifdef PBL_COLOR  
+#ifdef PBL_COLOR
+    if (
+    persist_read_int(KEY_BG_COLOR) < 256 &&
+    persist_read_int(KEY_H_COLOR) < 256 &&
+    persist_read_int(KEY_HI_COLOR) < 256 &&
+    persist_read_int(KEY_M_COLOR) < 256 &&
+    persist_read_int(KEY_T_COLOR) ) {
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "OLD SETTINGS BUG, DELETING");  
+    persist_delete(KEY_BG_COLOR);
+    persist_delete(KEY_H_COLOR);
+    persist_delete(KEY_HI_COLOR);
+    persist_delete(KEY_M_COLOR);
+    persist_delete(KEY_T_COLOR);
+   }
   if(!persist_exists(KEY_BG_COLOR)) {
-    persist_write_int(KEY_BG_COLOR, (uint8_t)0b11000000);
-    persist_write_int(KEY_H_COLOR,  (uint8_t)0b11111111);
-    persist_write_int(KEY_HI_COLOR, (uint8_t)0b11000000);
-    persist_write_int(KEY_M_COLOR,  (uint8_t)0b11111111);
-    persist_write_int(KEY_T_COLOR,  (uint8_t)0b11111111);
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "NO COLOR, DEFAULT");  
+    persist_write_int(KEY_BG_COLOR, 0x000000);
+    persist_write_int(KEY_H_COLOR,  0xffffff);
+    persist_write_int(KEY_HI_COLOR, 0x99353f);
+    persist_write_int(KEY_M_COLOR,  0xffffff);
+    persist_write_int(KEY_T_COLOR,  0xffffff);
+  }
+  
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "SETTING FROM bg: %ld h: %ld hi: %ld m: %ld t: %ld",
+    (long int)persist_read_int(KEY_BG_COLOR),
+    (long int)persist_read_int(KEY_H_COLOR),
+    (long int)persist_read_int(KEY_HI_COLOR),
+    (long int)persist_read_int(KEY_M_COLOR),
+    (long int)persist_read_int(KEY_T_COLOR)
+    );
+
+  if (persist_read_int(KEY_BG_COLOR) == 0x000000 &&
+      persist_read_int(KEY_T_COLOR) == 0xffffff) {
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "NO CUSTOM COLOR");
+    customcolor = 0;
+  } else {
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "CUSTOM COLOR");
+    customcolor = 1;
   }
 
-  bg_color     = GColorFromHEX(persist_read_int(KEY_BG_COLOR));
-  hour_color   = GColorFromHEX(persist_read_int(KEY_H_COLOR));
-  hourin_color = GColorFromHEX(persist_read_int(KEY_HI_COLOR));
-  minute_color = GColorFromHEX(persist_read_int(KEY_M_COLOR));
-  text_color   = GColorFromHEX(persist_read_int(KEY_T_COLOR));
-  
+  if(persist_exists(KEY_BG_COLOR)) {
+    bg_color     = GColorFromHEX(persist_read_int(KEY_BG_COLOR));
+    hour_color   = GColorFromHEX(persist_read_int(KEY_H_COLOR));
+    hourin_color = GColorFromHEX(persist_read_int(KEY_HI_COLOR));
+    minute_color = GColorFromHEX(persist_read_int(KEY_M_COLOR));
+    text_color   = GColorFromHEX(persist_read_int(KEY_T_COLOR));
+  }
 #else
   bg_color     = GColorBlack;
   hour_color   = GColorWhite;
@@ -134,11 +165,15 @@ void config_init() {
 }
 
 static void redraw_bg() {
-  s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BACKGROUND);
+  if (customcolor) { // no need if not custom color 
   #ifdef PBL_COLOR
-    replace_gbitmap_color(GColorBlack, bg_color, s_background_bitmap, s_background_layer);
-    replace_gbitmap_color(GColorWhite, text_color, s_background_bitmap, s_background_layer);
+      s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BACKGROUND_TIME);
+      replace_gbitmap_color(GColorBlack, bg_color, s_background_bitmap, s_background_layer);
+      replace_gbitmap_color(GColorWhite, text_color, s_background_bitmap, s_background_layer);
+  #else
+      s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BACKGROUND);
   #endif
+  }
 
   bitmap_layer_set_bitmap(s_background_layer, s_background_bitmap);
 
@@ -154,8 +189,10 @@ static void redraw_bg() {
 static void handle_bluetooth(bool connected) {
   GBitmap * bmp = bluetooth_images[connected ? 1 : 0];
   #ifdef PBL_COLOR
-    replace_gbitmap_color(GColorBlack, bg_color, bmp, bluetooth_layer);
-    replace_gbitmap_color(GColorWhite, text_color, bmp, bluetooth_layer);
+    if (customcolor) {
+      replace_gbitmap_color(GColorBlack, bg_color, bmp, bluetooth_layer);
+      replace_gbitmap_color(GColorWhite, text_color, bmp, bluetooth_layer);
+    }
   #endif
   bitmap_layer_set_bitmap(bluetooth_layer, bmp);
 }
@@ -167,85 +204,106 @@ static void handle_battery(BatteryChargeState charge_state) {
   
   GBitmap * bmp =  battery_images[(charge_state.is_charging ? 11 : 0) + min(charge_state.charge_percent / 10, 10)];
   #ifdef PBL_COLOR
-    replace_gbitmap_color(GColorBlack, bg_color, bmp, battery_layer);
-    replace_gbitmap_color(GColorWhite, text_color, bmp, battery_layer);
+    if (customcolor) {
+      replace_gbitmap_color(GColorBlack, bg_color, bmp, battery_layer);
+      replace_gbitmap_color(GColorWhite, text_color, bmp, battery_layer);
+    }
   #endif
   bitmap_layer_set_bitmap(battery_layer,bmp);
 }
 
 static void inbox_received_handler(DictionaryIterator *iter, void *context) {
   #ifdef PBL_COLOR
+  APP_LOG(APP_LOG_LEVEL_DEBUG,"Size: %d",(int)dict_size(iter));
+
+  Tuple *reset_t            = dict_find(iter, KEY_RESET);
   Tuple *background_color_t = dict_find(iter, KEY_BG_COLOR);
   Tuple *hour_color_t       = dict_find(iter, KEY_H_COLOR);
   Tuple *hour_in_color_t    = dict_find(iter, KEY_HI_COLOR);
   Tuple *minute_color_t     = dict_find(iter, KEY_M_COLOR);
   Tuple *text_color_t       = dict_find(iter, KEY_T_COLOR);
 
-//     APP_LOG(APP_LOG_LEVEL_DEBUG, "package");
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "#####");
+  
+  int change = 0;
+
+  if (reset_t) {
+    int reset = reset_t->value->int8;
+    if (reset) {
+      persist_delete(KEY_BG_COLOR);
+      persist_delete(KEY_H_COLOR);
+      persist_delete(KEY_HI_COLOR);
+      persist_delete(KEY_M_COLOR);
+      persist_delete(KEY_T_COLOR);
+      change = 1;
+    }
+  }
 
   if (background_color_t) {
     int color = background_color_t->value->int32;
-//     APP_LOG(APP_LOG_LEVEL_DEBUG, "in bg: %x",color);
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "@@in bg: %x",color);
  
     persist_write_int(KEY_BG_COLOR, color);
     bg_color = GColorFromHEX(color);
+    change++;
   }
 
   if (hour_color_t) {
     int color = hour_color_t->value->int32;
-//    APP_LOG(APP_LOG_LEVEL_DEBUG, "in h: %x",color);
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "@@in h: %x",color);
     persist_write_int(KEY_H_COLOR, color);
     hour_color = GColorFromHEX(color);
+    change++;
   }
 
   if (hour_in_color_t) {
     int color = hour_in_color_t->value->int32;
-//    APP_LOG(APP_LOG_LEVEL_DEBUG, "in hi: %x",color);
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "@@in hi: %x",color);
     persist_write_int(KEY_HI_COLOR, color);
     hourin_color = GColorFromHEX(color);
+    change++;
   }
 
   if (minute_color_t) {
     int color = minute_color_t->value->int32;
-//    APP_LOG(APP_LOG_LEVEL_DEBUG, "in m: %x",color);
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "@@in m: %x",color);
     persist_write_int(KEY_M_COLOR, color);
     minute_color = GColorFromHEX(color);
+    change++;
   }
 
   if (text_color_t) {
     int color = text_color_t->value->int32;
-//    APP_LOG(APP_LOG_LEVEL_DEBUG, "in t: %x",color);
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "@@in t: %x",color);
     persist_write_int(KEY_T_COLOR, color);
     text_color = GColorFromHEX(color);
+    change++;
   }
 
-  layer_mark_dirty(s_date_layer);
-  layer_mark_dirty(s_hands_layer);
+  if (change) {
+      layer_mark_dirty(s_date_layer);
+      layer_mark_dirty(s_hands_layer);
 
-  redraw_bg();
+      redraw_bg();
 
-  handle_bluetooth(connection_service_peek_pebble_app_connection());
-  handle_battery(battery_state_service_peek());
+      handle_bluetooth(connection_service_peek_pebble_app_connection());
+      handle_battery(battery_state_service_peek());
 
-  text_layer_set_background_color(s_day_label, bg_color);
-  text_layer_set_text_color(s_day_label, text_color);
+      text_layer_set_background_color(s_day_label, bg_color);
+      text_layer_set_text_color(s_day_label, text_color);
 
-  text_layer_set_background_color(s_num_label, bg_color);
-  text_layer_set_text_color(s_num_label, text_color);
+      text_layer_set_background_color(s_num_label, bg_color);
+      text_layer_set_text_color(s_num_label, text_color);
 
-  text_layer_set_text_color(battp_layer, text_color);
-  text_layer_set_background_color(battp_layer, bg_color);
-
+      text_layer_set_text_color(battp_layer, text_color);
+      text_layer_set_background_color(battp_layer, bg_color);
+  } else {
+      APP_LOG(APP_LOG_LEVEL_DEBUG, "@@@ UNSUCCESSFUL SETTINGS @@@");
+  }
   #endif
 }
 
 static void hands_update_proc(Layer *layer, GContext *ctx) {
-
-//   APP_LOG(APP_LOG_LEVEL_DEBUG, "bg: %x",(unsigned int)persist_read_int(0));
-//   APP_LOG(APP_LOG_LEVEL_DEBUG, "h: %x",(unsigned int)persist_read_int(1));
-//   APP_LOG(APP_LOG_LEVEL_DEBUG, "hi: %x",(unsigned int)persist_read_int(2));
-//   APP_LOG(APP_LOG_LEVEL_DEBUG, "m: %x",(unsigned int)persist_read_int(3));
-//   APP_LOG(APP_LOG_LEVEL_DEBUG, "t: %x",(unsigned int)persist_read_int(4));
 
   #ifdef PBL_COLOR
     graphics_context_set_antialiased(ctx,1);
@@ -263,7 +321,6 @@ static void hands_update_proc(Layer *layer, GContext *ctx) {
   // minute/hour hand
   gpath_rotate_to(s_hour_hand, hour_angle);
   #ifdef PBL_COLOR
-//    APP_LOG(APP_LOG_LEVEL_DEBUG, "in-: %uhh",(uint8_t)hourin_color);
     graphics_context_set_fill_color(ctx, hourin_color);
     graphics_context_set_stroke_color(ctx, hour_color);
     graphics_context_set_stroke_width(ctx, 3);
@@ -289,9 +346,9 @@ static void hands_update_proc(Layer *layer, GContext *ctx) {
   gpath_draw_outline(ctx, s_minute_hand);
 
   // center dot
-  graphics_fill_circle(ctx, center, DOTS_SIZE+3);
+  graphics_fill_circle(ctx, center, 7);
   graphics_context_set_fill_color(ctx, hourin_color);
-  graphics_fill_circle(ctx, center, DOTS_SIZE);
+  graphics_fill_circle(ctx, center, 4);
 
 }
 
@@ -315,11 +372,15 @@ static void window_load(Window *window) {
   Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(window_layer);
 
-  s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BACKGROUND);
   s_background_layer = bitmap_layer_create(layer_get_frame(window_layer));
   #ifdef PBL_COLOR
-    replace_gbitmap_color(GColorBlack, bg_color, s_background_bitmap, s_background_layer);
-    replace_gbitmap_color(GColorWhite, text_color, s_background_bitmap, s_background_layer);
+    s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BACKGROUND_TIME);
+    if (customcolor) {
+      replace_gbitmap_color(GColorBlack, bg_color, s_background_bitmap, s_background_layer);
+      replace_gbitmap_color(GColorWhite, text_color, s_background_bitmap, s_background_layer);
+    }
+  #else
+    s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BACKGROUND);
   #endif
   bitmap_layer_set_bitmap(s_background_layer, s_background_bitmap);
   layer_add_child(window_layer, bitmap_layer_get_layer(s_background_layer));
@@ -393,10 +454,12 @@ static void window_unload(Window *window) {
 }
 
 static void init() {
+  customcolor = 0;
+
   config_init();
 
   app_message_register_inbox_received(inbox_received_handler);
-  app_message_open(300, 300);
+  app_message_open(100, 100);
 
   window = window_create();
     

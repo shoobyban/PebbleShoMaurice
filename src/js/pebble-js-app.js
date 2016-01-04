@@ -22,6 +22,7 @@ function XhexToRgb(hex) {
 }
 
 Pebble.addEventListener('webviewclosed', function(e) {
+  console.log(e.response);
   var configData = JSON.parse(decodeURIComponent(e.response));
   console.log('Configuration page returned: ' + JSON.stringify(configData));
 
@@ -30,9 +31,11 @@ Pebble.addEventListener('webviewclosed', function(e) {
     hourColor: XhexToRgb(configData.hourColor),
     hourinColor: XhexToRgb(configData.hourinColor),
     minuteColor: XhexToRgb(configData.minuteColor),
-    textColor: XhexToRgb(configData.textColor)
+    textColor: XhexToRgb(configData.textColor),
+    reset: configData.reset
     };
   // Send to watchapp
+  console.log('Sending: ' + JSON.stringify(dict));
   Pebble.sendAppMessage(dict, function() {
     console.log('Send successful: ' + JSON.stringify(dict));
   }, function() {

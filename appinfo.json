@@ -3,24 +3,22 @@
   "shortName": "ShoMaurice",
   "longName": "ShoMaurice",
   "companyName": "Sam Ban",
-  "versionLabel": "2.2",
+  "versionLabel": "2.3",
   "sdkVersion": "3",
   "targetPlatforms": ["aplite", "basalt"],
   "watchapp": {
     "watchface": true
   },
-  "appKeys": {
-    "dummy": 0
-  },
   "capabilities": [
     "configurable"
   ],
   "appKeys": {
-    "backgroundColor":   0,
-    "hourColor":         1,
-    "hourinColor":       2,
-    "minuteColor":       3,
-    "textColor":         4
+    "backgroundColor": 0,
+    "hourColor": 1,
+    "hourinColor": 2,
+    "minuteColor": 3,
+    "textColor": 4,
+    "reset":  5
   },
   "resources": {
     "media": [
@@ -148,6 +146,11 @@
         "type": "png",
         "name": "IMAGE_BACKGROUND",
         "file": "images/maurice_background.png"
+      },
+      {
+        "type": "png",
+        "name": "IMAGE_BACKGROUND_TIME",
+        "file": "images/maurice_background_time.png"
       }
     ]
   }
