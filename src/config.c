@@ -211,8 +211,16 @@ void config_received_handler(DictionaryIterator *iter, void *ctx) {
     }
 
     if (fulldate_t) {
+        int old_fulldate = fulldate;
         fulldate = fulldate_t->value->int8;
-        persist_write_int(KEY_BTVIBE, fulldate);
+        
+        if (!old_fulldate && fulldate) {
+            analog_reload();
+        } else if (!fulldate && old_fulldate) {
+            analog_reload();
+        }
+        
+        persist_write_int(KEY_FULLDATE, fulldate);
     }
 
     //  window_stack_push(window,false);

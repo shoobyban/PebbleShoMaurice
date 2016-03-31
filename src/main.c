@@ -41,7 +41,6 @@ static void window_load(Window *window) {
 
 static void window_unload(Window *window) {
     analog_unload();
-    call_plugins_unload();
 }
 
 static void init() {
@@ -63,6 +62,7 @@ static void init() {
 }
 
 static void deinit() {
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "deinit");
     tick_timer_service_unsubscribe();
     window_destroy(window);
 }

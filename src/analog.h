@@ -8,3 +8,4 @@ void analog_redraw();
 void analog_refresh();
 void analog_refresh_sec();
 void analog_unload();
+void analog_reload();
