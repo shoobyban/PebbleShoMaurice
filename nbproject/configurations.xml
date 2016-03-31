@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="97">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <df root="." name="0">
+      <df name="build">
+        <df name="aplite">
+          <in>appinfo.auto.c</in>
+        </df>
+        <df name="basalt">
+          <in>appinfo.auto.c</in>
+        </df>
+      </df>
+      <df name="src">
+        <in>analog.c</in>
+        <in>config.c</in>
+        <in>gbitmap_color_palette_manipulator.c</in>
+        <in>main.c</in>
+        <in>plugin.c</in>
+        <in>plugin_battimg.c</in>
+        <in>plugin_battp.c</in>
+        <in>plugin_bt.c</in>
+        <in>plugin_day.c</in>
+        <in>plugin_digital.c</in>
+        <in>plugin_fulldate.c</in>
+        <in>plugin_health.c</in>
+        <in>plugin_month.c</in>
+        <in>plugin_num.c</in>
+      </df>
+    </df>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>nbproject/private/launcher.properties</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
+  <sourceRootList>
+    <Elem>.</Elem>
+  </sourceRootList>
+  <projectmakefile></projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>false</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <flagsDictionary>
+        <element flagsID="0" commonFlags="-std=c89"/>
+      </flagsDictionary>
+      <codeAssistance>
+      </codeAssistance>
+      <makefileType>
+        <makeTool>
+          <buildCommandWorkingDir>.</buildCommandWorkingDir>
+          <buildCommand>/usr/local/bin/pebble build</buildCommand>
+          <cleanCommand>/usr/local/bin/pebble clean</cleanCommand>
+          <executablePath></executablePath>
+        </makeTool>
+        <preBuild>
+          <preBuildCommandWorkingDir>.</preBuildCommandWorkingDir>
+          <preBuildCommand></preBuildCommand>
+        </preBuild>
+      </makefileType>
+      <item path="build/aplite/appinfo.auto.c" ex="false" tool="0" flavor2="2">
+        <cTool flags="0">
+        </cTool>
+      </item>
+      <item path="build/basalt/appinfo.auto.c" ex="false" tool="0" flavor2="2">
+        <cTool flags="0">
+        </cTool>
+      </item>
+      <folder path="0/build">
+        <cTool>
+          <incDir>
+            <pElem>/usr/local/Cellar/pebble-toolchain/2.0/arm-cs-tools/arm-none-eabi/include</pElem>
+          </incDir>
+        </cTool>
+      </folder>
+      <folder path="0/build/aplite">
+        <cTool>
+          <incDir>
+            <pElem>../../Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/aplite/include</pElem>
+            <pElem>build/aplite/src</pElem>
+            <pElem>build/aplite</pElem>
+            <pElem>build</pElem>
+          </incDir>
+        </cTool>
+      </folder>
+      <folder path="0/build/basalt">
+        <cTool>
+          <incDir>
+            <pElem>../../Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/basalt/include</pElem>
+            <pElem>build/basalt/src</pElem>
+            <pElem>build/basalt</pElem>
+            <pElem>build</pElem>
+          </incDir>
+        </cTool>
+      </folder>
+      <folder path="0/src">
+        <cTool>
+          <incDir>
+            <pElem>src</pElem>
+          </incDir>
+        </cTool>
+      </folder>
+      <item path="src/analog.c" ex="false" tool="0" flavor2="2">
+        <cTool flags="0">
+          <incDir>
+            <pElem>/usr/local/Cellar/pebble-toolchain/2.0/arm-cs-tools/arm-none-eabi/include</pElem>
+            <pElem>/usr/local/Cellar/pebble-toolchain/2.0/arm-cs-tools/arm-none-eabi/include/sys</pElem>
+            <pElem>../../Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/basalt/include</pElem>
+            <pElem>build/basalt/src</pElem>
+            <pElem>build/basalt</pElem>
+            <pElem>build</pElem>
+          </incDir>
+        </cTool>
+      </item>
+      <item path="src/config.c" ex="false" tool="0" flavor2="2">
+        <cTool flags="0">
+          <incDir>
+            <pElem>/usr/local/Cellar/pebble-toolchain/2.0/arm-cs-tools/arm-none-eabi/include</pElem>
+            <pElem>../../Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/basalt/include</pElem>
+            <pElem>build</pElem>
+          </incDir>
+        </cTool>
+      </item>
+      <item path="src/gbitmap_color_palette_manipulator.c"
+            ex="false"
+            tool="0"
+            flavor2="2">
+        <cTool flags="0">
+          <incDir>
+            <pElem>../../Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/basalt/include</pElem>
+            <pElem>/usr/local/Cellar/pebble-toolchain/2.0/arm-cs-tools/arm-none-eabi/include</pElem>
+            <pElem>build</pElem>
+          </incDir>
+        </cTool>
+      </item>
+      <item path="src/main.c" ex="false" tool="0" flavor2="2">
+        <cTool flags="0">
+          <incDir>
+            <pElem>/usr/local/Cellar/pebble-toolchain/2.0/arm-cs-tools/arm-none-eabi/include</pElem>
+            <pElem>../../Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/aplite/include</pElem>
+            <pElem>build</pElem>
+          </incDir>
+        </cTool>
+      </item>
+      <item path="src/plugin.c" ex="false" tool="0" flavor2="2">
+        <cTool flags="0">
+          <incDir>
+            <pElem>/usr/local/Cellar/pebble-toolchain/2.0/arm-cs-tools/arm-none-eabi/include</pElem>
+            <pElem>../../Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/basalt/include</pElem>
+            <pElem>build</pElem>
+          </incDir>
+        </cTool>
+      </item>
+      <item path="src/plugin_battimg.c" ex="false" tool="0" flavor2="2">
+        <cTool flags="0">
+          <incDir>
+            <pElem>/usr/local/Cellar/pebble-toolchain/2.0/arm-cs-tools/arm-none-eabi/include</pElem>
+            <pElem>../../Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/basalt/include</pElem>
+            <pElem>build/basalt/src</pElem>
+            <pElem>build/basalt</pElem>
+            <pElem>build</pElem>
+          </incDir>
+        </cTool>
+      </item>
+      <item path="src/plugin_battp.c" ex="false" tool="0" flavor2="2">
+        <cTool flags="0">
+          <incDir>
+            <pElem>/usr/local/Cellar/pebble-toolchain/2.0/arm-cs-tools/lib/gcc/arm-none-eabi/4.7.2/include</pElem>
+            <pElem>/usr/local/Cellar/pebble-toolchain/2.0/arm-cs-tools/arm-none-eabi/include</pElem>
+            <pElem>../../Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/aplite/include</pElem>
+            <pElem>build</pElem>
+          </incDir>
+        </cTool>
+      </item>
+      <item path="src/plugin_bt.c" ex="false" tool="0" flavor2="2">
+        <cTool flags="0">
+          <incDir>
+            <pElem>/usr/local/Cellar/pebble-toolchain/2.0/arm-cs-tools/arm-none-eabi/include</pElem>
+            <pElem>build/aplite/src</pElem>
+            <pElem>../../Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/aplite/include</pElem>
+            <pElem>build/aplite</pElem>
+            <pElem>build</pElem>
+          </incDir>
+        </cTool>
+      </item>
+      <item path="src/plugin_day.c" ex="false" tool="0" flavor2="2">
+        <cTool flags="0">
+          <incDir>
+            <pElem>/usr/local/Cellar/pebble-toolchain/2.0/arm-cs-tools/lib/gcc/arm-none-eabi/4.7.2/include</pElem>
+            <pElem>/usr/local/Cellar/pebble-toolchain/2.0/arm-cs-tools/arm-none-eabi/include</pElem>
+            <pElem>../../Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/basalt/include</pElem>
+            <pElem>build</pElem>
+          </incDir>
+        </cTool>
+      </item>
+      <item path="src/plugin_digital.c" ex="false" tool="0" flavor2="2">
+        <cTool flags="0">
+          <incDir>
+            <pElem>/usr/local/Cellar/pebble-toolchain/2.0/arm-cs-tools/lib/gcc/arm-none-eabi/4.7.2/include</pElem>
+            <pElem>/usr/local/Cellar/pebble-toolchain/2.0/arm-cs-tools/arm-none-eabi/include</pElem>
+            <pElem>../../Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/basalt/include</pElem>
+            <pElem>build/basalt/src</pElem>
+            <pElem>build/basalt</pElem>
+            <pElem>build</pElem>
+          </incDir>
+        </cTool>
+      </item>
+      <item path="src/plugin_fulldate.c" ex="false" tool="0" flavor2="2">
+        <cTool flags="0">
+          <incDir>
+            <pElem>/usr/local/Cellar/pebble-toolchain/2.0/arm-cs-tools/lib/gcc/arm-none-eabi/4.7.2/include</pElem>
+            <pElem>/usr/local/Cellar/pebble-toolchain/2.0/arm-cs-tools/arm-none-eabi/include</pElem>
+            <pElem>../../Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/basalt/include</pElem>
+            <pElem>build</pElem>
+          </incDir>
+        </cTool>
+      </item>
+      <item path="src/plugin_health.c" ex="false" tool="0" flavor2="2">
+        <cTool flags="0">
+          <incDir>
+            <pElem>/usr/local/Cellar/pebble-toolchain/2.0/arm-cs-tools/lib/gcc/arm-none-eabi/4.7.2/include</pElem>
+            <pElem>/usr/local/Cellar/pebble-toolchain/2.0/arm-cs-tools/arm-none-eabi/include</pElem>
+            <pElem>/usr/local/Cellar/pebble-toolchain/2.0/arm-cs-tools/arm-none-eabi/include/sys</pElem>
+            <pElem>../../Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/aplite/include</pElem>
+            <pElem>build</pElem>
+          </incDir>
+        </cTool>
+      </item>
+      <item path="src/plugin_month.c" ex="false" tool="0" flavor2="2">
+        <cTool flags="0">
+          <incDir>
+            <pElem>/usr/local/Cellar/pebble-toolchain/2.0/arm-cs-tools/lib/gcc/arm-none-eabi/4.7.2/include</pElem>
+            <pElem>/usr/local/Cellar/pebble-toolchain/2.0/arm-cs-tools/arm-none-eabi/include</pElem>
+            <pElem>../../Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/basalt/include</pElem>
+            <pElem>build</pElem>
+          </incDir>
+        </cTool>
+      </item>
+      <item path="src/plugin_num.c" ex="false" tool="0" flavor2="2">
+        <cTool flags="0">
+          <incDir>
+            <pElem>/usr/local/Cellar/pebble-toolchain/2.0/arm-cs-tools/lib/gcc/arm-none-eabi/4.7.2/include</pElem>
+            <pElem>/usr/local/Cellar/pebble-toolchain/2.0/arm-cs-tools/arm-none-eabi/include</pElem>
+            <pElem>../../Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/aplite/include</pElem>
+            <pElem>build</pElem>
+          </incDir>
+        </cTool>
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>

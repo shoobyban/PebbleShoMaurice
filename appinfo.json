@@ -3,14 +3,15 @@
   "shortName": "ShoMaurice",
   "longName": "ShoMaurice",
   "companyName": "Sam Ban",
-  "versionLabel": "2.3",
+  "versionLabel": "4.0",
   "sdkVersion": "3",
   "targetPlatforms": ["aplite", "basalt"],
   "watchapp": {
     "watchface": true
   },
   "capabilities": [
-    "configurable"
+    "configurable",
+    "health"
   ],
   "appKeys": {
     "backgroundColor": 0,
@@ -18,7 +19,15 @@
     "hourinColor": 2,
     "minuteColor": 3,
     "textColor": 4,
-    "reset":  5
+    "reset":  5,
+    "secColor": 6,
+    "showSeconds": 7,
+    "showDigital": 8,
+    "digital24": 9,
+    "monthBatt": 10,
+    "healthSteps": 11,
+    "btVibe": 12,
+    "fullDate": 13
   },
   "resources": {
     "media": [
@@ -151,6 +160,72 @@
         "type": "png",
         "name": "IMAGE_BACKGROUND_TIME",
         "file": "images/maurice_background_time.png"
+      },
+      {
+          "file": "images/number9.png",
+          "name": "IMAGE_NUM_9",
+          "type": "png"
+      },
+      {
+          "file": "images/number8.png",
+          "name": "IMAGE_NUM_8",
+          "type": "png"
+      },
+      {
+          "file": "images/number7.png",
+          "name": "IMAGE_NUM_7",
+          "type": "png"
+      },
+      {
+          "file": "images/number6.png",
+          "name": "IMAGE_NUM_6",
+          "type": "png"
+      },
+      {
+          "file": "images/number5.png",
+          "name": "IMAGE_NUM_5",
+          "type": "png"
+      },
+      {
+          "file": "images/number4.png",
+          "name": "IMAGE_NUM_4",
+          "type": "png"
+      },
+      {
+          "file": "images/number3.png",
+          "name": "IMAGE_NUM_3",
+          "type": "png"
+      },
+      {
+          "file": "images/number2.png",
+          "name": "IMAGE_NUM_2",
+          "type": "png"
+      },
+      {
+          "file": "images/number1.png",
+          "name": "IMAGE_NUM_1",
+          "type": "png"
+      },
+      {
+          "file": "images/number0.png",
+          "name": "IMAGE_NUM_0",
+          "type": "png"
+      },
+      {
+          "file": "images/colon.png",
+          "name": "IMAGE_COLON",
+          "type": "png"
+      },
+      {
+          "file": "images/step.png",
+          "name": "STEP",
+          "type": "png"
+      },
+      {
+        "type": "font",
+        "name": "FONT_22",
+        "file": "fonts/johnny_fever.ttf",
+        "characterRegex": "[0-9A-Za-z :]"
       }
     ]
   }

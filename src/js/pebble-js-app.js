@@ -3,7 +3,7 @@ Pebble.addEventListener('ready', function() {
 });
 
 Pebble.addEventListener('showConfiguration', function() {
-  var url = 'http://pebble.wizguild.com/maurice/';
+  var url = 'http://pebble.wizguild.com/maurice/?version=4.0';
   console.log('Showing configuration page: ' + url);
 
   Pebble.openURL(url);
@@ -32,7 +32,15 @@ Pebble.addEventListener('webviewclosed', function(e) {
     hourinColor: XhexToRgb(configData.hourinColor),
     minuteColor: XhexToRgb(configData.minuteColor),
     textColor: XhexToRgb(configData.textColor),
-    reset: configData.reset
+    reset: configData.reset,
+    secColor: XhexToRgb(configData.secColor),
+    showSeconds: (configData.showSeconds==true?1:0),
+    showDigital: (configData.showDigital==true?1:0),
+    digital24: (configData.digital24==true?1:0),
+    monthBatt: (configData.monthBatt==true?1:0),
+    healthSteps: (configData.healthSteps==true?1:0),
+    btVibe: (configData.btVibe==true?1:0),
+    fullDate: (configData.fullDate==true?1:0)
     };
   // Send to watchapp
   console.log('Sending: ' + JSON.stringify(dict));

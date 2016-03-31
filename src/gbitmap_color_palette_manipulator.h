@@ -1,3 +1,4 @@
+#pragma once
 #include <pebble.h>
 
 #ifdef PBL_COLOR
