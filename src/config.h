@@ -11,6 +11,7 @@
 #include "plugin_num.h"
 #include "plugin_month.h"
 #include "plugin_fulldate.h"
+#include "plugin_cal.h"
 #include "gbitmap_color_palette_manipulator.h"
 
 #ifndef MAURICE_CONFIG
@@ -26,10 +27,9 @@
 #define KEY_SECOND   7
 #define KEY_DIGITAL  8
 #define KEY_24       9
-#define KEY_MBATT    10
-#define KEY_STEPS    11
-#define KEY_BTVIBE   12
-#define KEY_FULLDATE 13
+#define KEY_STEPS    10
+#define KEY_BTVIBE   11
+#define KEY_CALMODE  12
 
 #define max(a,b) ((a) > (b) ? (a) : (b))
 #define min(a,b) ((a) < (b) ? (a) : (b))
@@ -54,11 +54,10 @@ int customcolor;
 int show_second;
 int show_digital;
 int digital24;
-int mbatt;
 int show_steps;
 int bt_vibe;
 int appstarted;
-int fulldate;
+int calmode;
 
 #endif
 

@@ -67,15 +67,14 @@ void config_load() {
 
     show_second = persist_read_int(KEY_SECOND);
     show_steps = persist_read_int(KEY_STEPS);
-    mbatt = persist_read_int(KEY_MBATT);
     show_digital = persist_read_int(KEY_DIGITAL);
     digital24 = persist_read_int(KEY_24);
     bt_vibe = persist_read_int(KEY_BTVIBE);
-    fulldate = persist_read_int(KEY_FULLDATE);
+    calmode = persist_read_int(KEY_CALMODE);
 
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "sec: %d st: %d mb: %d d: %d v: %d f: %d",
-            (int) show_second, (int) show_steps, (int) mbatt, (int) show_digital, 
-            (int) bt_vibe, (int) fulldate);
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "sec: %d st: %d d: %d v: %d c: %d",
+            (int) show_second, (int) show_steps, (int) show_digital, 
+            (int) bt_vibe, (int) calmode);
 
 }
 
@@ -83,10 +82,9 @@ void config_received_handler(DictionaryIterator *iter, void *ctx) {
     Tuple *sec_t = dict_find(iter, KEY_SECOND);
     Tuple *show_digital_t = dict_find(iter, KEY_DIGITAL);
     Tuple *digital24_t = dict_find(iter, KEY_24);
-    Tuple *monthbatt_t = dict_find(iter, KEY_MBATT);
     Tuple *steps_t = dict_find(iter, KEY_STEPS);
     Tuple *btvibe_t = dict_find(iter, KEY_BTVIBE);
-    Tuple *fulldate_t = dict_find(iter, KEY_FULLDATE);
+    Tuple *calmode_t = dict_find(iter, KEY_CALMODE);
 
 #ifdef PBL_COLOR
     APP_LOG(APP_LOG_LEVEL_DEBUG, "Size: %d", (int) dict_size(iter));
@@ -195,11 +193,6 @@ void config_received_handler(DictionaryIterator *iter, void *ctx) {
         persist_write_int(KEY_24, digital24);
     }
 
-    if (monthbatt_t) {
-        mbatt = monthbatt_t->value->int8;
-        persist_write_int(KEY_MBATT, mbatt);
-    }
-
     if (steps_t) {
         show_steps = steps_t->value->int8;
         persist_write_int(KEY_STEPS, show_steps);
@@ -210,24 +203,22 @@ void config_received_handler(DictionaryIterator *iter, void *ctx) {
         persist_write_int(KEY_BTVIBE, bt_vibe);
     }
 
-    if (fulldate_t) {
-        int old_fulldate = fulldate;
-        fulldate = fulldate_t->value->int8;
+    if (calmode_t) {
+        int old_calmode = calmode;
+        calmode = calmode_t->value->int8;
         
-        if (!old_fulldate && fulldate) {
-            analog_reload();
-        } else if (!fulldate && old_fulldate) {
+        if (old_calmode != calmode) {
             analog_reload();
         }
         
-        persist_write_int(KEY_FULLDATE, fulldate);
+        persist_write_int(KEY_CALMODE, calmode);
     }
 
     //  window_stack_push(window,false);
     //  window_stack_pop_all(false);
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "got: sec: %d st: %d mb: %d d: %d v: %d f: %d",
-            (int) show_second, (int) show_steps, (int) mbatt, (int) show_digital,
-            (int) bt_vibe, (int) fulldate);
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "got: sec: %d st: %d d: %d v: %d c: %d",
+            (int) show_second, (int) show_steps, (int) show_digital,
+            (int) bt_vibe, (int) calmode);
 
 }
 

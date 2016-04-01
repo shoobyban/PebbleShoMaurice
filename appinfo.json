@@ -24,10 +24,9 @@
     "showSeconds": 7,
     "showDigital": 8,
     "digital24": 9,
-    "monthBatt": 10,
-    "healthSteps": 11,
-    "btVibe": 12,
-    "fullDate": 13
+    "healthSteps": 10,
+    "btVibe": 11,
+    "calMode": 12
   },
   "resources": {
     "media": [

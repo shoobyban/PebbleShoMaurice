@@ -5,7 +5,7 @@ Window *window;
 void handle_battery(BatteryChargeState charge_state) {
     battp_refresh(charge_state);
 
-    if (!mbatt) {
+    if (calmode != CALMODE_MBATT) {
         battimg_refresh(charge_state);
     }
 }

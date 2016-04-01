@@ -43,26 +43,34 @@ void analog_load(Layer *window_layer) {
         bitmap_layer_set_bitmap(s_background_layer, s_background_bitmap);
         layer_add_child(window_layer, bitmap_layer_get_layer(s_background_layer));
 
+        digital_load(window_layer,GRect(0, 144, 144, 28));
+
         battp_load(window_layer, GRect(40, 30, 30, 14));
 
-        if (mbatt) {
-            month_load(window_layer, GRect(80, 28, 27, 18));        
-        } else {
+        if (calmode != CALMODE_MBATT) {
             battimg_load(window_layer, GRect(83, 35, 16, 10));
         }
 
         bt_load(window_layer, GRect(64, 33, 13, 13));
 
-        if (fulldate) {
-            APP_LOG(APP_LOG_LEVEL_DEBUG, "FULL DATE MODE");        
-            fulldate_load(window_layer,GRect(40, 114, 68, 20));
-        } else {
-            day_load(window_layer, GRect(73, 114, 27, 20)); 
-            num_load(window_layer, GRect(46, 114, 18, 20));
+        switch (calmode) {
+            case CALMODE_FULL: 
+                fulldate_load(window_layer,GRect(40, 114, 68, 20));
+                break;
+            case CALMODE_NORMAL:
+                day_load(window_layer, GRect(73, 114, 27, 20)); 
+                num_load(window_layer, GRect(46, 114, 18, 20));
+                break;
+            case CALMODE_CAL:
+                day_load(window_layer, GRect(60, 114, 27, 20)); 
+                cal_load(window_layer, GRect(1, 138, 30, 80));
+                break;
+            case CALMODE_MBATT:
+                month_load(window_layer, GRect(80, 28, 27, 18));        
+                break;
         }
 
-        digital_load(window_layer,GRect(0, 144, 144, 28));
-        health_load(window_layer, GRect(100, 140, 40, 80));
+        health_load(window_layer, GRect(104, 138, 39, 80));
 
         s_hands_layer = layer_create(bounds);
         layer_set_update_proc(s_hands_layer, hands_update_proc);
@@ -183,15 +191,21 @@ void date_update_proc(Layer *layer, GContext *ctx) {
         time_t now = time(NULL);
         struct tm *t = localtime(&now);
 
-        if (mbatt) {
-            month_refresh(t);
-        }
-
-        if (fulldate) {
-            fulldate_refresh(t);
-        } else {
-            day_refresh(t);
-            num_refresh(t);
+        switch (calmode) { 
+            case CALMODE_MBATT:
+                month_refresh(t);
+                break;
+            case CALMODE_FULL:
+                fulldate_refresh(t);
+                break;
+            case CALMODE_NORMAL:
+                day_refresh(t);
+                num_refresh(t);
+                break;
+            case CALMODE_CAL:
+                cal_refresh(t);
+                day_refresh(t);
+                break;
         }
     }
 }

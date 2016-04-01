@@ -37,10 +37,9 @@ Pebble.addEventListener('webviewclosed', function(e) {
     showSeconds: (configData.showSeconds==true?1:0),
     showDigital: (configData.showDigital==true?1:0),
     digital24: (configData.digital24==true?1:0),
-    monthBatt: (configData.monthBatt==true?1:0),
     healthSteps: (configData.healthSteps==true?1:0),
     btVibe: (configData.btVibe==true?1:0),
-    fullDate: (configData.fullDate==true?1:0)
+    calMode: parseInt(configData.calMode)
     };
   // Send to watchapp
   console.log('Sending: ' + JSON.stringify(dict));

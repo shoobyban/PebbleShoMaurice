@@ -14,6 +14,7 @@ void bt_load(Layer * window_layer, GRect rect) {
         bluetooth_layer = bitmap_layer_create(rect);
         layer_add_child(window_layer, bitmap_layer_get_layer(bluetooth_layer));
         bt_loaded = 1;
+        bt_redraw();
         register_plugin((load_fn)bt_load,(void_fn)bt_redraw,(void_fn)bt_unload);
     }
 }
@@ -28,6 +29,7 @@ void bt_redraw() {
             replace_gbitmap_color(GColorWhite, text_color, bmp, bluetooth_layer);
             #endif
         }
+        bitmap_layer_set_bitmap(bluetooth_layer, bmp);
     }
 }
 
@@ -37,7 +39,6 @@ void bt_refresh(bool connected) {
         if (appstarted && !connected && bt_vibe) {
             vibes_long_pulse();
         }
-
         bt_connected = connected;
         bt_redraw();
     }
