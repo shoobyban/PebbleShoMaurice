@@ -32,7 +32,7 @@ void cal_redraw() {
 void cal_refresh(struct tm * t) {
     if (cal_loaded) {
         APP_LOG(APP_LOG_LEVEL_DEBUG, "cal_refresh");
-        strftime(s_cal_buffer, sizeof (s_cal_buffer), "%d %b", t);
+        strftime(s_cal_buffer, sizeof (s_cal_buffer), "%d\n%b", t);
         text_layer_set_text(s_cal_label, s_cal_buffer);
     }
 }

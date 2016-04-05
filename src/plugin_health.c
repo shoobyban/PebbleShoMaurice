@@ -31,7 +31,7 @@ void health_redraw() {
         HealthServiceAccessibilityMask mask = health_service_metric_accessible(metric, start, end);
         
         if (mask & HealthServiceAccessibilityMaskAvailable) {
-            snprintf(s_steps_buffer, sizeof (s_steps_buffer), "%d steps", (int) health_service_sum_today(metric));
+            snprintf(s_steps_buffer, sizeof (s_steps_buffer), "%d\nsteps", (int) health_service_sum_today(metric));
             text_layer_set_background_color(steps_layer, bg_color);
             text_layer_set_text(steps_layer, s_steps_buffer);
         }

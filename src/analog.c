@@ -43,7 +43,7 @@ void analog_load(Layer *window_layer) {
         bitmap_layer_set_bitmap(s_background_layer, s_background_bitmap);
         layer_add_child(window_layer, bitmap_layer_get_layer(s_background_layer));
 
-        digital_load(window_layer,GRect(0, 144, 144, 28));
+        digital_load(window_layer,GRect(40, 144, 64, 28));
 
         battp_load(window_layer, GRect(40, 30, 30, 14));
 
@@ -63,7 +63,7 @@ void analog_load(Layer *window_layer) {
                 break;
             case CALMODE_CAL:
                 day_load(window_layer, GRect(60, 114, 27, 20)); 
-                cal_load(window_layer, GRect(1, 138, 30, 80));
+                cal_load(window_layer, GRect(1, 138, 40, 80));
                 break;
             case CALMODE_MBATT:
                 month_load(window_layer, GRect(80, 28, 27, 18));        

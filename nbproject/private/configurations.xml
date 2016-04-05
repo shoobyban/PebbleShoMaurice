@@ -99,6 +99,8 @@
         <in>plugin_battp.h</in>
         <in>plugin_bt.c</in>
         <in>plugin_bt.h</in>
+        <in>plugin_cal.c</in>
+        <in>plugin_cal.h</in>
         <in>plugin_day.c</in>
         <in>plugin_day.h</in>
         <in>plugin_digital.c</in>
@@ -112,6 +114,7 @@
         <in>plugin_num.c</in>
         <in>plugin_num.h</in>
       </df>
+      <in>plugin_cal.c</in>
     </df>
   </logicalFolder>
   <projectmakefile></projectmakefile>
