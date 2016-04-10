@@ -1,7 +1,5 @@
 #include "config.h"
 #include "analog_points.h"
-#include "plugin_digital.h"
-#include "gbitmap_color_palette_manipulator.h"
 
 BitmapLayer *s_background_layer;
 GBitmap * s_background_bitmap;
@@ -43,34 +41,7 @@ void analog_load(Layer *window_layer) {
         bitmap_layer_set_bitmap(s_background_layer, s_background_bitmap);
         layer_add_child(window_layer, bitmap_layer_get_layer(s_background_layer));
 
-        digital_load(window_layer,GRect(40, 144, 64, 28));
-
-        battp_load(window_layer, GRect(40, 30, 30, 14));
-
-        if (calmode != CALMODE_MBATT) {
-            battimg_load(window_layer, GRect(83, 35, 16, 10));
-        }
-
-        bt_load(window_layer, GRect(64, 33, 13, 13));
-
-        switch (calmode) {
-            case CALMODE_FULL: 
-                fulldate_load(window_layer,GRect(40, 114, 68, 20));
-                break;
-            case CALMODE_NORMAL:
-                day_load(window_layer, GRect(73, 114, 27, 20)); 
-                num_load(window_layer, GRect(46, 114, 18, 20));
-                break;
-            case CALMODE_CAL:
-                day_load(window_layer, GRect(60, 114, 27, 20)); 
-                cal_load(window_layer, GRect(1, 138, 40, 80));
-                break;
-            case CALMODE_MBATT:
-                month_load(window_layer, GRect(80, 28, 27, 18));        
-                break;
-        }
-
-        health_load(window_layer, GRect(104, 138, 39, 80));
+        redisplay_plugins();
 
         s_hands_layer = layer_create(bounds);
         layer_set_update_proc(s_hands_layer, hands_update_proc);
@@ -82,6 +53,44 @@ void analog_load(Layer *window_layer) {
 
         analog_loaded = 1;
     }
+}
+
+void redisplay_plugins () {
+
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "-- redisplay_plugins --");
+    
+    call_plugins_unload();    
+    
+    digital_load(window_layer,DIGITAL_RECT);
+
+    battp_load(window_layer, BATTP_RECT);
+
+    if (calmode != CALMODE_MBATT) {
+        battimg_load(window_layer, BATTIMG_RECT);
+    }
+
+    bt_load(window_layer, BT_RECT);
+
+    switch (calmode) {
+        case CALMODE_FULL: 
+            fulldate_load(window_layer,FULLDATE_RECT);
+            break;
+        case CALMODE_NORMAL:
+            day_load(window_layer, DAY_NORMAL_RECT); 
+            num_load(window_layer, NUM_NORMAL_RECT);
+            break;
+        case CALMODE_CAL:
+            cal_load(window_layer, NUM_CAL_RECT);
+            day_load(window_layer, DAY_CAL_RECT); 
+            break;
+        case CALMODE_MBATT:
+            day_load(window_layer, DAY_NORMAL_RECT); 
+            num_load(window_layer, NUM_NORMAL_RECT);
+            break;
+    }
+
+    health_load(window_layer, HEALTH_RECT);
+    
 }
 
 void analog_redraw() {
@@ -117,6 +126,8 @@ void hands_update_proc(Layer *layer, GContext *ctx) {
         int32_t hour_angle = (TRIG_MAX_ANGLE * (((t->tm_hour % 12) * 6) + (t->tm_min / 10))) / (12 * 6);
         int32_t min_angle = TRIG_MAX_ANGLE * t->tm_min / 60;
 
+        APP_LOG(APP_LOG_LEVEL_DEBUG, "min %d",t->tm_min);
+        
         // minute/hour hand
         gpath_rotate_to(s_hour_hand, hour_angle);
 
@@ -211,6 +222,7 @@ void date_update_proc(Layer *layer, GContext *ctx) {
 }
 
 void analog_refresh() {
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "_______REFRESH_______");
     layer_mark_dirty(s_hands_layer);
 }
 
@@ -230,9 +242,4 @@ void analog_unload() {
 
         layer_destroy(s_hands_layer);
     }
-}
-
-void analog_reload() {
-    analog_unload();
-    analog_load(window_layer_backup);
 }

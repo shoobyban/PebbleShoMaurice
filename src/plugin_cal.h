@@ -11,6 +11,7 @@ void cal_load(Layer * window_layer, GRect rect);
 void cal_refresh(struct tm * t);
 void cal_redraw();
 void cal_unload();
+int cal_loaded();
 
 #endif /* PLUGIN_CAL_H */
 

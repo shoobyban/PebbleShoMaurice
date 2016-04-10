@@ -6,6 +6,7 @@ void battimg_load(Layer * window_layer, GRect rect);
 void battimg_redraw();
 void battimg_refresh(BatteryChargeState charge_state);
 void battimg_unload();
+int battimg_loaded();
 
 #endif /* PLUGIN_BATTIMG_H */
 

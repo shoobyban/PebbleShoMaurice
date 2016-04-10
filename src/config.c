@@ -173,7 +173,6 @@ void config_received_handler(DictionaryIterator *iter, void *ctx) {
             tick_timer_service_unsubscribe();
             show_second = sec_t->value->int8;
             persist_write_int(KEY_SECOND, show_second);
-            analog_refresh();
             if (show_second) {
                 tick_timer_service_subscribe(SECOND_UNIT, handle_second_tick);
             } else {
@@ -183,15 +182,19 @@ void config_received_handler(DictionaryIterator *iter, void *ctx) {
         }
     }
 
-    if (show_digital_t) {
-        show_digital = show_digital_t->value->int8;
-        persist_write_int(KEY_DIGITAL, show_digital);
-    }
-
     if (digital24_t) {
         digital24 = digital24_t->value->int8;
         persist_write_int(KEY_24, digital24);
     }
+
+    if (show_digital_t) {
+        show_digital = show_digital_t->value->int8;
+        persist_write_int(KEY_DIGITAL, show_digital);
+        if (show_digital && !digital_loaded()) {
+            digital_load(window_layer,DIGITAL_RECT);
+        }
+    }
+
 
     if (steps_t) {
         show_steps = steps_t->value->int8;
@@ -204,13 +207,7 @@ void config_received_handler(DictionaryIterator *iter, void *ctx) {
     }
 
     if (calmode_t) {
-        int old_calmode = calmode;
         calmode = calmode_t->value->int8;
-        
-        if (old_calmode != calmode) {
-            analog_reload();
-        }
-        
         persist_write_int(KEY_CALMODE, calmode);
     }
 
@@ -220,9 +217,12 @@ void config_received_handler(DictionaryIterator *iter, void *ctx) {
             (int) show_second, (int) show_steps, (int) show_digital,
             (int) bt_vibe, (int) calmode);
 
+    redisplay_plugins();
+    
 }
 
 void handle_minute_tick(struct tm *tick_time, TimeUnits units_changed) {
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "min");
     analog_refresh();
 }
 

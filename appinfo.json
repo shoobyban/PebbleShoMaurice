@@ -3,7 +3,7 @@
   "shortName": "ShoMaurice",
   "longName": "ShoMaurice",
   "companyName": "Sam Ban",
-  "versionLabel": "4.1",
+  "versionLabel": "4.2",
   "sdkVersion": "3",
   "targetPlatforms": ["aplite", "basalt"],
   "watchapp": {

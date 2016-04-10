@@ -16,7 +16,7 @@ void handle_bluetooth(bool connected) {
 
 static void window_load(Window *window) {
 
-    Layer *window_layer = window_get_root_layer(window);
+    window_layer = window_get_root_layer(window);
 
     analog_load(window_layer);
 

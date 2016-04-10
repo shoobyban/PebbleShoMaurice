@@ -1,4 +1,8 @@
 #pragma once
+
+#ifndef PLUGIN_CONFIG_H
+#define PLUGIN_CONFIG_H
+
 #include <pebble.h>
 #include "analog.h"
 #include "plugin.h"
@@ -13,6 +17,8 @@
 #include "plugin_fulldate.h"
 #include "plugin_cal.h"
 #include "gbitmap_color_palette_manipulator.h"
+
+Layer *window_layer;
 
 #ifndef MAURICE_CONFIG
 #define MAURICE_CONFIG
@@ -30,6 +36,18 @@
 #define KEY_STEPS    10
 #define KEY_BTVIBE   11
 #define KEY_CALMODE  12
+
+#define DIGITAL_RECT    GRect( 40, 144, 64, 28)
+#define HEALTH_RECT     GRect(104, 138, 39, 80)
+#define BATTP_RECT      GRect( 40,  30, 30, 14)
+#define BATTIMG_RECT    GRect( 83,  35, 16, 10)
+#define BT_RECT         GRect( 64,  33, 13, 13)
+#define FULLDATE_RECT   GRect( 40, 114, 68, 20)
+#define DAY_NORMAL_RECT GRect( 73, 114, 27, 20)
+#define DAY_CAL_RECT    GRect( 60, 114, 27, 20)
+#define NUM_NORMAL_RECT GRect( 46, 114, 18, 20)
+#define NUM_CAL_RECT    GRect(  1, 138, 40, 80)
+#define MONTH_RECT      GRect( 80,  28, 27, 18)
 
 #define max(a,b) ((a) > (b) ? (a) : (b))
 #define min(a,b) ((a) < (b) ? (a) : (b))
@@ -66,3 +84,5 @@ void config_received_handler(DictionaryIterator *iter, void *ctx);
 void redraw_bg();
 void handle_minute_tick(struct tm *tick_time, TimeUnits units_changed);
 void handle_second_tick(struct tm *tick_time, TimeUnits units_changed);
+
+#endif /* PLUGIN_CONFIG_H */

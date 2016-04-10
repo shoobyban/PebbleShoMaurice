@@ -19,6 +19,7 @@
         <in>plugin_battimg.c</in>
         <in>plugin_battp.c</in>
         <in>plugin_bt.c</in>
+        <in>plugin_cal.c</in>
         <in>plugin_day.c</in>
         <in>plugin_digital.c</in>
         <in>plugin_fulldate.c</in>
@@ -188,6 +189,16 @@
           </incDir>
         </cTool>
       </item>
+      <item path="src/plugin_cal.c" ex="false" tool="0" flavor2="2">
+        <cTool flags="0">
+          <incDir>
+            <pElem>/usr/local/Cellar/pebble-toolchain/2.0/arm-cs-tools/lib/gcc/arm-none-eabi/4.7.2/include</pElem>
+            <pElem>/usr/local/Cellar/pebble-toolchain/2.0/arm-cs-tools/arm-none-eabi/include</pElem>
+            <pElem>../../Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/basalt/include</pElem>
+            <pElem>build</pElem>
+          </incDir>
+        </cTool>
+      </item>
       <item path="src/plugin_day.c" ex="false" tool="0" flavor2="2">
         <cTool flags="0">
           <incDir>
@@ -226,7 +237,7 @@
             <pElem>/usr/local/Cellar/pebble-toolchain/2.0/arm-cs-tools/lib/gcc/arm-none-eabi/4.7.2/include</pElem>
             <pElem>/usr/local/Cellar/pebble-toolchain/2.0/arm-cs-tools/arm-none-eabi/include</pElem>
             <pElem>/usr/local/Cellar/pebble-toolchain/2.0/arm-cs-tools/arm-none-eabi/include/sys</pElem>
-            <pElem>../../Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/aplite/include</pElem>
+            <pElem>../../Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/basalt/include</pElem>
             <pElem>build</pElem>
           </incDir>
         </cTool>

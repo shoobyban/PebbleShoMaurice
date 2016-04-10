@@ -7,6 +7,7 @@ void day_load(Layer * window_layer, GRect rect);
 void day_refresh(struct tm * t);
 void day_redraw();
 void day_unload();
+int day_loaded();
 
 #endif /* PLUGIN_DAY_H */
 

@@ -7,6 +7,7 @@ void fulldate_load(Layer * window_layer, GRect rect);
 void fulldate_refresh(struct tm * t);
 void fulldate_redraw();
 void fulldate_unload();
+int fulldate_loaded();
 
 #endif /* PLUGIN_FULLDATE_H */
 

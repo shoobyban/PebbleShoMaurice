@@ -1,26 +1,26 @@
 #include <pebble.h>
 #include "config.h"
 
-int battimg_loaded = 0;
+int _battimg_loaded = 0;
 BitmapLayer *battimg_layer;
 GBitmap *battery_images[22];
 BatteryChargeState battery_state;
 
 void battimg_load(Layer * window_layer, GRect rect) {
-    if (!battimg_loaded) {
+    if (!_battimg_loaded) {
         APP_LOG(APP_LOG_LEVEL_DEBUG, "battimg_load");
         for (int i = 0; i < 22; i++) {
             battery_images[i] = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATTERY_0 + i);
         }
         battimg_layer = bitmap_layer_create(rect);
         layer_add_child(window_layer, bitmap_layer_get_layer(battimg_layer));
-        battimg_loaded = 1;
+        _battimg_loaded = 1;
         register_plugin((load_fn)battimg_load,(void_fn)battimg_redraw,(void_fn)battimg_unload);
     }
 }
 
 void battimg_redraw() {
-    if (battimg_loaded) {
+    if (_battimg_loaded) {
         APP_LOG(APP_LOG_LEVEL_DEBUG, "battimg_redraw");
         GBitmap * bmp = battery_images[(battery_state.is_charging ? 11 : 0) + min(battery_state.charge_percent / 10, 10)];
         #ifdef PBL_COLOR
@@ -34,7 +34,7 @@ void battimg_redraw() {
 }
 
 void battimg_refresh(BatteryChargeState charge_state) {
-    if (battimg_loaded) {
+    if (_battimg_loaded) {
         APP_LOG(APP_LOG_LEVEL_DEBUG, "battimg_refresh");
         battery_state = charge_state;
         battimg_redraw();
@@ -42,12 +42,16 @@ void battimg_refresh(BatteryChargeState charge_state) {
 }
 
 void battimg_unload() {
-    if (battimg_loaded) {
+    if (_battimg_loaded) {
         APP_LOG(APP_LOG_LEVEL_DEBUG, "battimg_unload");
         bitmap_layer_destroy(battimg_layer);
         for (int i = 0; i < 22; i++) {
             gbitmap_destroy(battery_images[i]);
         }
-        battimg_loaded = 0;
+        _battimg_loaded = 0;
     }
+}
+
+int battimg_loaded() {
+    return _battimg_loaded;
 }

@@ -6,6 +6,7 @@ void battp_load(Layer * window_layer,GRect rect);
 void battp_redraw();
 void battp_refresh(BatteryChargeState charge_state);
 void battp_unload();
+int battp_loaded();
 
 #endif /* PLUGIN_BATTP_H */
 
