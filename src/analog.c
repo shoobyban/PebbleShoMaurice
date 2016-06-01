@@ -162,10 +162,6 @@ void hands_update_proc(Layer *layer, GContext *ctx) {
         graphics_context_set_fill_color(ctx, hourin_color);
         graphics_fill_circle(ctx, center, 4);
 
-        if (show_digital) {
-            digital_refresh(ctx, t);
-        }
-
     #ifdef PBL_HEALTH
         if (show_steps) {
             health_redraw(ctx);
@@ -224,6 +220,9 @@ void date_update_proc(Layer *layer, GContext *ctx) {
 void analog_refresh() {
     APP_LOG(APP_LOG_LEVEL_DEBUG, "_______REFRESH_______");
     layer_mark_dirty(s_hands_layer);
+    if (show_digital) {
+        digital_refresh();
+    }
 }
 
 void analog_refresh_sec() {

@@ -27,10 +27,8 @@ void digital_load(Layer * window_layer, GRect rect) {
 
 /**
  * Refresh
- * @param ctx
- * @param t
  */
-void digital_refresh(GContext * ctx, struct tm *t) {
+void digital_refresh() {
     if (_digital_loaded) {
         time_t now = time(NULL);
         struct tm *t = localtime(&now);
