@@ -10,7 +10,30 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/Users/shooby/pebble-dev/ShoMaurice/src/plugin_battimg.h</file>
+            <file>file:/Users/shooby/pebble-dev/ShoMaurice/src/plugin_digital.c</file>
+            <file>file:/Users/shooby/pebble-dev/ShoMaurice/src/main.c</file>
+            <file>file:/Users/shooby/pebble-dev/ShoMaurice/src/config.c</file>
+            <file>file:/Users/shooby/pebble-dev/ShoMaurice/src/plugin_battp.c</file>
+            <file>file:/Users/shooby/pebble-dev/ShoMaurice/src/plugin_month.c</file>
+            <file>file:/Users/shooby/pebble-dev/ShoMaurice/src/plugin_battimg.c</file>
+            <file>file:/Users/shooby/pebble-dev/ShoMaurice/src/plugin_bt.h</file>
+            <file>file:/Users/shooby/pebble-dev/ShoMaurice/src/plugin_month.h</file>
+            <file>file:/Users/shooby/pebble-dev/ShoMaurice/src/plugin_battp.h</file>
+            <file>file:/Users/shooby/pebble-dev/ShoMaurice/src/plugin_bt.c</file>
+            <file>file:/Users/shooby/pebble-dev/ShoMaurice/.travis.yml</file>
+            <file>file:/Users/shooby/pebble-dev/ShoMaurice/src/config.h</file>
+            <file>file:/Users/shooby/pebble-dev/ShoMaurice/src/analog.h</file>
+            <file>file:/Users/shooby/pebble-dev/ShoMaurice/src/plugin_day.h</file>
+            <file>file:/Users/shooby/pebble-dev/ShoMaurice/src/plugin_fulldate.h</file>
+            <file>file:/Users/shooby/pebble-dev/ShoMaurice/src/plugin.c</file>
+            <file>file:/Users/shooby/pebble-dev/ShoMaurice/src/analog.c</file>
             <file>file:/Users/shooby/pebble-dev/ShoMaurice/appinfo.json</file>
+            <file>file:/Users/shooby/pebble-dev/ShoMaurice/src/plugin.h</file>
+            <file>file:/Users/shooby/pebble-dev/ShoMaurice/src/plugin_health.h</file>
+            <file>file:/Users/shooby/pebble-dev/ShoMaurice/src/plugin_num.h</file>
+            <file>file:/Users/shooby/pebble-dev/ShoMaurice/src/plugin_digital.h</file>
+            <file>file:/Users/shooby/pebble-dev/ShoMaurice/src/plugin_cal.h</file>
         </group>
     </open-files>
 </project-private>
