@@ -17,6 +17,7 @@ before_install:
 install:
  - mkdir pebble-dev
  - cd pebble-dev
+ - pwd
  - curl -O https://s3.amazonaws.com/assets.getpebble.com/pebble-tool/pebble-sdk-$PEBBLE_TOOL-linux64.tar.bz2
  - tar -jxf pebble-sdk-$PEBBLE_TOOL-linux64.tar.bz2
  - cd pebble-sdk-$PEBBLE_TOOL-linux64
@@ -29,7 +30,8 @@ install:
  - touch ~/.pebble-sdk/NO_TRACKING
 
 script:
- - bin/pebble build
+ - cd ~/ShoobyBan/PebbleShoMaurice
+ - ~/pebble-dev/pebble-sdk-$PEBBLE_TOOL-linux64/bin/pebble build
 
 env:
   global:
