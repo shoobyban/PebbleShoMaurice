@@ -24,13 +24,11 @@ install:
  - source .env/bin/activate
  - pip install -r requirements.txt
  - pip install cpplint
- - deactivate
 
 script:
- - yes | ./pebble-dev/pebble-sdk-$PEBBLE_TOOL-linux64/bin/pebble build
- - source ./pebble-dev/pebble-sdk-$PEBBLE_TOOL-linux64/.env/bin/activate
+ - bin/pebble build
+ - source .env/bin/activate
  - cpplint src/*
- - deactivate
 
 env:
   global:
