@@ -27,9 +27,7 @@ install:
  - touch NO_TRACKING
 
 script:
- - bin/pebble build
- - source .env/bin/activate
- - cpplint src/*
+ - yes | bin/pebble build
 
 env:
   global:
