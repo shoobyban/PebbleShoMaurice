@@ -10,19 +10,19 @@ script:
 - pebble-dev/${PEBBLE_SDK}/bin/pebble build
 
 before_install:
-- wget http://assets.getpebble.com.s3-website-us-east-1.amazonaws.com/sdk2/${PEBBLE_SDK}.tar.gz -O PebbleSDK.tar.gz
-- wget http://assets.getpebble.com.s3-website-us-east-1.amazonaws.com/sdk/arm-cs-tools-ubuntu-universal.tar.gz
-- mkdir pebble-dev
-- tar -zxf PebbleSDK.tar.gz -C pebble-dev
-- tar -zxf arm-cs-tools-ubuntu-universal.tar.gz -C pebble-dev/${PEBBLE_SDK}
+  - wget https://s3.amazonaws.com/assets.getpebble.com/pebble-tool/pebble-sdk-4.2.1-linux64.tar.bz2
+  - mkdir -p pebble-dev
+  - tar -jxf pebble-sdk-* -C pebble-dev
+  - touch pebble-dev/NO_TRACKING
+  - export PEBBLE_SDK=pebble-dev/pebble-sdk-*
+  - export PEBBLE=$PEBBLE_SDK/bin/pebble
 
 # notice we don't create a virtualenv, travis to that be default already
 install:
 - pip install --upgrade pip # just to future proof, since travis seem to hang behind
 - pip install --install-option="--no-cython-compile" cython
 - "pip install -r pebble-dev/${PEBBLE_SDK}/requirements.txt"
-- touch pebble-dev/NO_TRACKING
 
 env:
   global:
-  - PEBBLE_SDK=PebbleSDK-3.11
+  - PEBBLE_SDK=PebbleSDK-3.12
