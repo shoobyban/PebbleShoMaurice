@@ -1,28 +1,41 @@
-# Test
-language: python
-
 sudo: false
 
+language: python
 python:
-  - "2.7"
+ - 2.7
 
-script:
-- pebble-dev/${PEBBLE_SDK}/bin/pebble build
+addons:
+  apt:
+    sources:
+      - libsdl1.2debian
+      - libfdt1
+      - libpixman-1-0
 
 before_install:
-  - wget https://s3.amazonaws.com/assets.getpebble.com/pebble-tool/pebble-sdk-4.2.1-linux64.tar.bz2
-  - mkdir -p pebble-dev
-  - tar -jxf pebble-sdk-* -C pebble-dev
-  - touch pebble-dev/NO_TRACKING
-  - export PEBBLE_SDK=pebble-dev/pebble-sdk-*
-  - export PEBBLE=$PEBBLE_SDK/bin/pebble
+ - pip install virtualenv
 
-# notice we don't create a virtualenv, travis to that be default already
 install:
-- pip install --upgrade pip # just to future proof, since travis seem to hang behind
-- pip install --install-option="--no-cython-compile" cython
-- "pip install -r pebble-dev/${PEBBLE_SDK}/requirements.txt"
+ - mkdir pebble-dev
+ - cd pebble-dev
+ - curl -O https://s3.amazonaws.com/assets.getpebble.com/pebble-tool/pebble-sdk-$PEBBLE_TOOL-linux64.tar.bz2
+ - tar -jxf pebble-sdk-$PEBBLE_TOOL-linux64.tar.bz2
+ - cd pebble-sdk-$PEBBLE_TOOL-linux64
+ - virtualenv --no-site-packages .env
+ - source .env/bin/activate
+ - pip install -r requirements.txt
+ - pip install cpplint
+ - deactivate
+
+script:
+ - yes | ./pebble-dev/pebble-sdk-$PEBBLE_TOOL-linux64/bin/pebble build
+ - source ./pebble-dev/pebble-sdk-$PEBBLE_TOOL-linux64/.env/bin/activate
+ - cpplint src/*
+ - deactivate
 
 env:
   global:
-  - PEBBLE_SDK=PebbleSDK-3.12
+    - PEBBLE_TOOL=4.2
+
+branches:
+  only:
+    - master
