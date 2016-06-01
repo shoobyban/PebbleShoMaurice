@@ -31,7 +31,7 @@ install:
 
 script:
  - cd ~/build/ShoobyBan/PebbleShoMaurice
- - ~/pebble-dev/pebble-sdk-$PEBBLE_TOOL-linux64/bin/pebble build
+ - pebble-dev/pebble-sdk-$PEBBLE_TOOL-linux64/bin/pebble build
 
 env:
   global:
