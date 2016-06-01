@@ -25,7 +25,8 @@ install:
  - pip install -r requirements.txt
  - pip install cpplint
  - deactivate
- - touch NO_TRACKING
+ - mkdir ~/.pebble-sdk/
+ - touch ~/.pebble-sdk/NO_TRACKING
 
 script:
  - bin/pebble build
