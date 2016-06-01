@@ -30,7 +30,7 @@ install:
  - touch ~/.pebble-sdk/NO_TRACKING
 
 script:
- - cd ~/ShoobyBan/PebbleShoMaurice
+ - cd ~/build/ShoobyBan/PebbleShoMaurice
  - ~/pebble-dev/pebble-sdk-$PEBBLE_TOOL-linux64/bin/pebble build
 
 env:
