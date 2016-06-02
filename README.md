@@ -1,7 +1,7 @@
 ShoMaurice Watchface for Pebble
 ===========================
 
-![build](https://travis-ci.org/ShoobyBan/PebbleShoMaurice.svg?branch=master)
+[![Build Status](https://travis-ci.org/ShoobyBan/PebbleShoMaurice.svg?branch=master)](https://travis-ci.org/ShoobyBan/PebbleShoMaurice)
 
 This is a highly readable analog watchface for the [Pebble Smartwatch][pebble], intended for every-day use.
 
